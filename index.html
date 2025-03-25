@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,7 +25,7 @@
     }
 
     header img {
-      height: 50px;
+      height: 40px;
       margin-bottom: 10px;
     }
 
@@ -47,37 +46,42 @@
     }
   </style>
   <script>
-    let submissionCheckInterval;
-
-    function checkFormSubmission() {
+    function checkFormElements() {
       const iframe = document.getElementById("form-frame");
-      submissionCheckInterval = setInterval(() => {
+      if (!iframe) return;
+
+      let lastCheck = 0;
+      const interval = setInterval(() => {
         const innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+        if (!innerDoc) return;
 
         const title = innerDoc.querySelector("div.freebirdFormviewerViewHeaderTitle");
         const desc = innerDoc.querySelector("div.freebirdFormviewerViewHeaderDescription");
         const signIn = innerDoc.querySelector("div[jsname='YPqjbf']");
+        const confirmationText = innerDoc.querySelector("div.freebirdFormviewerViewResponseConfirmationMessage");
 
         if (title) title.style.display = "none";
         if (desc) desc.style.display = "none";
         if (signIn) signIn.style.display = "none";
 
-        const confirmationText = innerDoc.querySelector("div.freebirdFormviewerViewResponseConfirmationMessage");
         if (confirmationText) {
-          clearInterval(submissionCheckInterval);
+          clearInterval(interval);
           setTimeout(() => {
             iframe.src = iframe.src;
           }, 5000);
         }
+
+        lastCheck += 1;
+        if (lastCheck > 30) clearInterval(interval);
       }, 1000);
     }
 
-    window.onload = checkFormSubmission;
+    window.onload = checkFormElements;
   </script>
 </head>
 <body>
   <header>
-    <img src="https://youthera.org/wp-content/uploads/2020/10/Youth-Era-Logo-RGB-Black.png" alt="Youth Era Logo">
+    <img src="https://drive.google.com/uc?export=view&id=1SYiAZzsjJEAB4Dvv1q525ar3mgDA5lPN" alt="Youth Era Logo">
     <div>Welcome! Please check in or out below.</div>
   </header>
 
