@@ -42,15 +42,18 @@
         const innerDoc = iframe.contentDocument || iframe.contentWindow.document;
         if (!innerDoc) return;
 
+        // HIDE: Form title & description
         const title = innerDoc.querySelector("div.freebirdFormviewerViewHeaderTitle");
         const desc = innerDoc.querySelector("div.freebirdFormviewerViewHeaderDescription");
-        const signIn = innerDoc.querySelector("div[jsname='YPqjbf']");
-        const confirmationText = innerDoc.querySelector("div.freebirdFormviewerViewResponseConfirmationMessage");
-
         if (title) title.style.display = "none";
         if (desc) desc.style.display = "none";
+
+        // HIDE: Email/sign-in banner
+        const signIn = innerDoc.querySelector("div[jsname='fS4hgd']");
         if (signIn) signIn.style.display = "none";
 
+        // RESET: Auto-reset after submission
+        const confirmationText = innerDoc.querySelector("div.freebirdFormviewerViewResponseConfirmationMessage");
         if (confirmationText) {
           clearInterval(interval);
           setTimeout(() => {
